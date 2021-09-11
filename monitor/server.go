@@ -5,6 +5,7 @@ import (
 	"github.com/ProjectAthenaa/sonic-core/protos/monitor"
 	monitor_controller "github.com/ProjectAthenaa/sonic-core/protos/monitorController"
 	proxy_rater "github.com/ProjectAthenaa/sonic-core/protos/proxy-rater"
+	"github.com/ProjectAthenaa/sonic-core/sonic"
 	"github.com/ProjectAthenaa/sonic-core/sonic/core"
 	"github.com/ProjectAthenaa/sonic-core/sonic/database/ent/product"
 	"google.golang.org/grpc"
@@ -13,6 +14,7 @@ import (
 
 var (
 	rdb = core.Base.GetRedis("cache")
+	pxClient, _ = sonic.NewPerimeterXClient("localhost:3000")
 	proxyClient proxy_rater.ProxyRaterClient
 )
 

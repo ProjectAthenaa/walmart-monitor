@@ -3,7 +3,8 @@ module github.com/ProjectAthenaa/walmart-monitor
 go 1.17
 
 require (
-	github.com/ProjectAthenaa/sonic-core v0.0.0-20210910230611-6cb67ec10496
+	github.com/ProjectAthenaa/sonic-core v0.0.0-20210911202934-d6fa8a3c679c
+	github.com/json-iterator/go v1.1.11
 	github.com/prometheus/common v0.4.0
 	google.golang.org/grpc v1.40.0
 )
@@ -29,7 +30,6 @@ require (
 	github.com/graphql-go/graphql v0.8.0 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
-	github.com/json-iterator/go v1.1.11 // indirect
 	github.com/klauspost/compress v1.13.4 // indirect
 	github.com/lib/pq v1.10.3 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect

@@ -12,25 +12,25 @@ var (
 )
 
 func (tk *Task) iteration() error{
-	for {
-		req, err := tk.NewRequest("GET", fmt.Sprintf(`https://www.walmart.com/terra-firma/item/%s`, tk.sku), nil)
-		if err != nil {
-			return err
-		}
-		req.Headers = tk.GenerateDefaultHeaders()
-		//getpx
+	//get px. set px in jar
 
-		res, err := tk.Do(req)
-		if err != nil {
-			return err
-		}
+	req, err := tk.NewRequest("GET", fmt.Sprintf(`https://www.walmart.com/terra-firma/item/%s`, tk.sku), nil)
+	if err != nil {
+		return err
+	}
+	req.Headers = tk.GenerateDefaultHeaders()
+	//getpx
 
-		offer := itemOfferRe.FindSubmatch(res.Body)
-		if len(offer) > 0{
-			tk.Monitor.Channel <- map[string]interface{}{
-				"offerid":string(offer[1]),
-			}
-			return nil
+	res, err := tk.Do(req)
+	if err != nil {
+		return err
+	}
+
+	offer := itemOfferRe.FindSubmatch(res.Body)
+	if len(offer) > 0{
+		tk.Monitor.Channel <- map[string]interface{}{
+			"offerid":string(offer[1]),
 		}
+		return nil
 	}
 }

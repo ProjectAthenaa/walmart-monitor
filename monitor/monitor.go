@@ -1,6 +1,5 @@
 package monitor
 
-
 import (
 	monitor_controller "github.com/ProjectAthenaa/sonic-core/protos/monitorController"
 	"github.com/ProjectAthenaa/sonic-core/sonic/base"
@@ -12,14 +11,14 @@ var _ face.MonitorCallback = (*Task)(nil)
 
 type Task struct {
 	*base.BMonitor
-
-	sku         string
+	sku        string
+	pxResponse []byte
 }
 
 func NewTask(data *monitor_controller.Task) (*Task, error) {
 	task := &Task{
-		BMonitor:    &base.BMonitor{Data: data},
-		sku:    data.Metadata["sku"],
+		BMonitor: &base.BMonitor{Data: data},
+		sku:      data.Metadata["sku"],
 	}
 
 	task.Callback = task
@@ -42,7 +41,7 @@ func (tk *Task) TaskLoop() {
 }
 
 func (tk *Task) OnStarting() {
-
+	tk.GetPX()
 }
 
 func (tk *Task) OnStopping() {
