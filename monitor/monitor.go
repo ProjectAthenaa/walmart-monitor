@@ -41,7 +41,7 @@ func (tk *Task) TaskLoop() {
 }
 
 func (tk *Task) OnStarting() {
-	tk.GetPX()
+	tk.PXLoop()
 }
 
 func (tk *Task) OnStopping() {

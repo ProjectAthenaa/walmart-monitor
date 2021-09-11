@@ -23,7 +23,7 @@ func (tk *Task) GenerateDefaultHeaders() fasttls.Headers {
 	}
 }
 
-func (tk *Task) GetPX() []byte{
+func (tk *Task) PXLoop(){
 	for range time.Tick(500 * time.Millisecond){
 		payload, err := pxClient.ConstructPayload(tk.Ctx, &perimeterx.Payload{
 			Site:           perimeterx.SITE_WALMART,
@@ -42,17 +42,21 @@ func (tk *Task) GetPX() []byte{
 		req, err := tk.NewRequest("POST", "https://collector-pxu6b0qd2s.px-cloud.net/api/v2/collector", payload.Payload)
 		if err != nil {
 			log.Error(err)
-			return nil
+			continue
 		}
 		req.Headers = tk.GenerateDefaultHeaders()
 
 		res, err := tk.Do(req)
 		if err != nil {
 			log.Error(err)
-			return nil
+			continue
 		}
 
 		cookie, err := pxClient.GetCookie(tk.Ctx, &perimeterx.GetCookieRequest{PXResponse: res.Body})
+		if err != nil {
+			log.Error(err)
+			continue
+		}
 		tk.Client.Jar.Set("_px3", cookie.Value)
 	}
 }
