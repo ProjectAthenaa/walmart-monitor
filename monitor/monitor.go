@@ -1,6 +1,5 @@
 package monitor
 
-//offers":["\w+"]
 
 import (
 	monitor_controller "github.com/ProjectAthenaa/sonic-core/protos/monitorController"
@@ -14,20 +13,13 @@ var _ face.MonitorCallback = (*Task)(nil)
 type Task struct {
 	*base.BMonitor
 
-	keywords *monitor_controller.Keywords
-
-	PID         string
-	Size        string
-	sizeId      string
-	category    string
-	channelName string
+	sku         string
 }
 
 func NewTask(data *monitor_controller.Task) (*Task, error) {
 	task := &Task{
 		BMonitor:    &base.BMonitor{Data: data},
-		PID:    data.Metadata["category"],,
-		channelName: data.RedisChannel,
+		sku:    data.Metadata["sku"],
 	}
 
 	task.Callback = task
