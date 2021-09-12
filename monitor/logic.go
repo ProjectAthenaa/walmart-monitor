@@ -26,6 +26,10 @@ func (tk *Task) iteration() error{
 		return err
 	}
 
+	if res.StatusCode == 307{
+		tk.PXHoldCaptcha(res.Headers["Location"][0])
+	}
+
 	offer := itemOfferRe.FindSubmatch(res.Body)
 	if len(offer) > 0{
 		tk.Monitor.Channel <- map[string]interface{}{
@@ -33,4 +37,5 @@ func (tk *Task) iteration() error{
 		}
 		return nil
 	}
+	return nil
 }

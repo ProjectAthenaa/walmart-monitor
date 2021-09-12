@@ -28,9 +28,6 @@ func (tk *Task) PXLoop(){
 		payload, err := pxClient.ConstructPayload(tk.Ctx, &perimeterx.Payload{
 			Site:           perimeterx.SITE_WALMART,
 			Type:           perimeterx.PXType_PX34,
-			Cookie:         "",
-			ResponseObject: nil,
-			Token:          "",
 			RSC:            0,
 		})
 
@@ -59,4 +56,54 @@ func (tk *Task) PXLoop(){
 		}
 		tk.Client.Jar.Set("_px3", cookie.Value)
 	}
+}
+
+func (tk *Task) PXHoldCaptcha(blockedUrl string){
+	payload, err := pxClient.ConstructPayload(tk.Ctx, &perimeterx.Payload{
+		Site:           perimeterx.SITE_WALMART,
+		Type:           perimeterx.PXType_PX34,
+		Cookie:         "",
+		ResponseObject: nil,
+		Token:          "",
+		RSC:            0,
+	})
+
+	if err != nil{
+		log.Error(err)
+	}
+
+	req, err := tk.NewRequest("POST", "https://collector-pxu6b0qd2s.px-cloud.net/api/v2/bundle", payload.Payload)
+	if err != nil {
+		log.Error(err)
+	}
+	req.Headers = tk.GenerateDefaultHeaders()
+
+	res, err := tk.Do(req)
+	if err != nil {
+		log.Error(err)
+	}
+
+	payload, err = pxClient.ConstructPayload(tk.Ctx, &perimeterx.Payload{
+		Site:           perimeterx.SITE_WALMART,
+		Type:           perimeterx.PXType_HCAPHIGH,
+		ResponseObject: res.Body,
+		RSC:            2,
+	})
+
+	req, err = tk.NewRequest("POST", "https://collector-pxu6b0qd2s.px-cloud.net/api/v2/bundle", payload.Payload)
+	if err != nil {
+		log.Error(err)
+	}
+	req.Headers = tk.GenerateDefaultHeaders()
+	req.Headers["referrer"] = []string{blockedUrl}
+
+	res, err = tk.Do(req)
+	if err != nil {
+		log.Error(err)
+	}
+	cookie, err := pxClient.GetCookie(tk.Ctx, &perimeterx.GetCookieRequest{PXResponse: res.Body})
+	if err != nil {
+		log.Error(err)
+	}
+	tk.Client.Jar.Set("_px3", cookie.Value)
 }
