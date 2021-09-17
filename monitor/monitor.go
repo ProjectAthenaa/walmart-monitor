@@ -1,9 +1,11 @@
 package monitor
 
 import (
+	"github.com/ProjectAthenaa/sonic-core/fasttls"
 	monitor_controller "github.com/ProjectAthenaa/sonic-core/protos/monitorController"
 	"github.com/ProjectAthenaa/sonic-core/sonic/base"
 	"github.com/ProjectAthenaa/sonic-core/sonic/face"
+	"github.com/ProjectAthenaa/walmart/config"
 	"github.com/prometheus/common/log"
 )
 
@@ -18,9 +20,8 @@ type Task struct {
 func NewTask(data *monitor_controller.Task) (*Task, error) {
 	task := &Task{
 		BMonitor: &base.BMonitor{Data: data},
-		sku:      data.Metadata["sku"],
+		sku:      data.Metadata[*config.Module.Fields[0].FieldKey],
 	}
-
 	task.Callback = task
 
 	return task, nil
@@ -34,16 +35,17 @@ func (tk *Task) TaskLoop() {
 			return
 		default:
 			if err = tk.iteration(); err != nil {
-				log.Error("error completing iteration", err)
+				log.Error("error completing iteration: ", err)
 			}
 		}
 	}
 }
 
 func (tk *Task) OnStarting() {
-	tk.PXLoop()
+	tk.Client.Jar = fasttls.NewJar()
+	go tk.PXLoop()
 }
 
 func (tk *Task) OnStopping() {
-
+	//panic("")
 }

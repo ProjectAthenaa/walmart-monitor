@@ -4,7 +4,8 @@ go 1.17
 
 require (
 	github.com/ProjectAthenaa/sonic-core v0.0.0-20210911202934-d6fa8a3c679c
-	github.com/json-iterator/go v1.1.11
+	github.com/ProjectAthenaa/walmart v0.0.0-20210912220623-c84f5b5802ed
+	github.com/json-iterator/go v1.1.12
 	github.com/prometheus/common v0.4.0
 	google.golang.org/grpc v1.40.0
 )
@@ -30,10 +31,10 @@ require (
 	github.com/graphql-go/graphql v0.8.0 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
-	github.com/klauspost/compress v1.13.4 // indirect
+	github.com/klauspost/compress v1.13.5 // indirect
 	github.com/lib/pq v1.10.3 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
-	github.com/modern-go/reflect2 v1.0.1 // indirect
+	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/sirupsen/logrus v1.8.1 // indirect
 	github.com/thoas/go-funk v0.9.1 // indirect

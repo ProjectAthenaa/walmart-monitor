@@ -25,6 +25,13 @@ func (tk *Task) GenerateDefaultHeaders() fasttls.Headers {
 
 func (tk *Task) PXLoop(){
 	for range time.Tick(500 * time.Millisecond){
+		select{
+			case <- tk.Ctx.Done():
+				return
+			default:
+				break
+		}
+
 		payload, err := pxClient.ConstructPayload(tk.Ctx, &perimeterx.Payload{
 			Site:           perimeterx.SITE_WALMART,
 			Type:           perimeterx.PXType_PX34,

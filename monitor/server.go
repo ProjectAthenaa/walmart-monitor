@@ -8,6 +8,7 @@ import (
 	"github.com/ProjectAthenaa/sonic-core/sonic"
 	"github.com/ProjectAthenaa/sonic-core/sonic/core"
 	"github.com/ProjectAthenaa/sonic-core/sonic/database/ent/product"
+	"github.com/prometheus/common/log"
 	"google.golang.org/grpc"
 	"os"
 )
@@ -41,6 +42,7 @@ func init(){
 }
 
 func (s Server) Start(ctx context.Context, task *monitor_controller.Task) (*monitor_controller.BoolResponse, error) {
+	log.Info("new task starting")
 	t, err := NewTask(task)
 	if err != nil {
 		return nil, err

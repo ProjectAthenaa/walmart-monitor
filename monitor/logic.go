@@ -2,13 +2,12 @@ package monitor
 
 import (
 	"fmt"
-	"github.com/json-iterator/go"
+	"github.com/prometheus/common/log"
 	"regexp"
 )
 
 var (
-	json = jsoniter.ConfigCompatibleWithStandardLibrary
-	itemOfferRe = regexp.MustCompile(`offers":\["(\w+)"]`)
+	itemOfferRe = regexp.MustCompile(`offers":\["(\w+)"`)
 )
 
 func (tk *Task) iteration() error{
@@ -30,6 +29,7 @@ func (tk *Task) iteration() error{
 		tk.PXHoldCaptcha(res.Headers["Location"][0])
 	}
 
+	log.Info("product found")
 	offer := itemOfferRe.FindSubmatch(res.Body)
 	if len(offer) > 0{
 		tk.Monitor.Channel <- map[string]interface{}{
