@@ -15,6 +15,7 @@ type Task struct {
 	*base.BMonitor
 	sku        string
 	pxResponse []byte
+	pxUUID string
 }
 
 func NewTask(data *monitor_controller.Task) (*Task, error) {
@@ -43,7 +44,6 @@ func (tk *Task) TaskLoop() {
 
 func (tk *Task) OnStarting() {
 	tk.Client.Jar = fasttls.NewJar()
-	go tk.PXLoop()
 }
 
 func (tk *Task) OnStopping() {
