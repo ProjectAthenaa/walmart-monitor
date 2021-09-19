@@ -13,6 +13,7 @@ var _ face.MonitorCallback = (*Task)(nil)
 
 type Task struct {
 	*base.BMonitor
+	pubcount int
 	sku        string
 	pxResponse []byte
 	pxUUID string
@@ -44,6 +45,7 @@ func (tk *Task) TaskLoop() {
 
 func (tk *Task) OnStarting() {
 	tk.Client.Jar = fasttls.NewJar()
+	tk.pubcount = 1
 }
 
 func (tk *Task) OnStopping() {
